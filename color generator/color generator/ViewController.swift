@@ -43,14 +43,6 @@ class ViewController: UIViewController {
         textField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 33).isActive = true
         textField.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -33).isActive = true
         textField.heightAnchor.constraint(equalToConstant: 67).isActive = true
-        textField.backgroundColor = .white
-        textField.layer.cornerRadius = 15
-        textField.layer.borderWidth = 1.0
-        textField.layer.borderColor = UIColor(white: 0.5, alpha: 0.3).cgColor
-        textField.layer.shadowOpacity = 0.05
-        textField.layer.shadowRadius = 1.0
-        textFieldHex.layer.shadowOffset = CGSizeMake(0.0, 2.0)
-        textField.layer.shadowColor = UIColor.black.cgColor
         
 //        MARK: - Hex Title Label
                 
@@ -68,14 +60,6 @@ class ViewController: UIViewController {
         textFieldHex.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 33).isActive = true
         textFieldHex.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -33).isActive = true
         textFieldHex.heightAnchor.constraint(equalToConstant: 67).isActive = true
-        textFieldHex.backgroundColor = .white
-        textFieldHex.layer.cornerRadius = 15
-        textFieldHex.layer.borderWidth = 1.0
-        textFieldHex.layer.borderColor = UIColor(white: 0.5, alpha: 0.3).cgColor
-        textFieldHex.layer.shadowOpacity = 0.05
-        textFieldHex.layer.shadowRadius = 1.0
-        textFieldHex.layer.shadowOffset = CGSizeMake(0.0, 2.0)
-        textFieldHex.layer.shadowColor = UIColor.black.cgColor
         
 //        MARK: - Result Title
         view.addSubview(titleLabelResult)
@@ -108,13 +92,13 @@ class ViewController: UIViewController {
     }()
     
     private let textField: UITextField = {
-        let text = UITextField()
+        let text = CustomTextField()
         text.translatesAutoresizingMaskIntoConstraints = false
         return text
     }()
     
     private let textFieldHex: UITextField = {
-        let textHex = UITextField()
+        let textHex = CustomTextField()
         textHex.translatesAutoresizingMaskIntoConstraints = false
         return textHex
     }()
@@ -141,3 +125,30 @@ class ViewController: UIViewController {
     }
 }
 
+class CustomTextField: UITextField {
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        backgroundColor = .white
+        layer.cornerRadius = 15
+        layer.borderWidth = 1.0
+        layer.borderColor = UIColor(white: 0.5, alpha: 0.3).cgColor
+        layer.shadowOpacity = 0.05
+        layer.shadowRadius = 1.0
+        layer.shadowOffset = CGSizeMake(0.0, 2.0)
+        layer.shadowColor = UIColor.black.cgColor
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func textRect(forBounds bounds: CGRect) -> CGRect {
+        return CGRectInset(bounds, 20, 0)
+    }
+    
+    override func editingRect(forBounds bounds: CGRect) -> CGRect {
+        return CGRectInset(bounds, 20, 0)
+    }
+    
+}
