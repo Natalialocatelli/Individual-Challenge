@@ -8,7 +8,7 @@
 import UIKit
 
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,12 +37,12 @@ class ViewController: UIViewController {
         
 //        MARK: - Count Text Field
         
-        view.addSubview(textField)
-        textField.textColor = UIColor(named: "TextColor")
-        textField.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 8).isActive = true
-        textField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 33).isActive = true
-        textField.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -33).isActive = true
-        textField.heightAnchor.constraint(equalToConstant: 67).isActive = true
+        view.addSubview(textFieldColors)
+        textFieldColors.textColor = UIColor(named: "TextColor")
+        textFieldColors.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 8).isActive = true
+        textFieldColors.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 33).isActive = true
+        textFieldColors.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -33).isActive = true
+        textFieldColors.heightAnchor.constraint(equalToConstant: 67).isActive = true
         
 //        MARK: - Hex Title Label
                 
@@ -51,7 +51,7 @@ class ViewController: UIViewController {
         titleLabelHex.textColor = UIColor(named: "TextColor")
         titleLabelHex.topAnchor.constraint(equalTo: view.topAnchor, constant: 174).isActive = true
         titleLabelHex.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
-        titleLabelHex.bottomAnchor.constraint(equalTo: textField.bottomAnchor, constant: 37).isActive = true
+        titleLabelHex.bottomAnchor.constraint(equalTo: textFieldColors.bottomAnchor, constant: 37).isActive = true
         
 //        MARK: - Hex Text Field
         view.addSubview(textFieldHex)
@@ -67,10 +67,17 @@ class ViewController: UIViewController {
         titleLabelResult.textColor = UIColor(named: "TextColor")
         titleLabelResult.font = UIFont.systemFont(ofSize: 24)
         titleLabelResult.font = UIFont.boldSystemFont(ofSize: 24)
-        titleLabelResult.topAnchor.constraint(equalTo: view.topAnchor, constant: 174).isActive = true
-        titleLabelResult.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
-        titleLabelResult.bottomAnchor.constraint(equalTo: textField.bottomAnchor, constant: 300).isActive = true
+        titleLabelResult.topAnchor.constraint(equalTo: textFieldHex.bottomAnchor, constant: 26).isActive = true
+        titleLabelResult.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 35).isActive = true
 
+//        MARK: - TableView
+        view.addSubview(tableViewColors)
+        tableViewColors.topAnchor.constraint(equalTo: titleLabelResult.bottomAnchor, constant: 10).isActive = true
+        tableViewColors.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 34).isActive = true
+        tableViewColors.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -34).isActive = true
+        tableViewColors.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -100).isActive = true
+        
+        
     }
     
     private let titleLabelResult: UILabel = {
@@ -91,7 +98,7 @@ class ViewController: UIViewController {
         return labelHex
     }()
     
-    private let textField: UITextField = {
+    private let textFieldColors: UITextField = {
         let text = CustomTextField()
         text.translatesAutoresizingMaskIntoConstraints = false
         return text
@@ -102,6 +109,44 @@ class ViewController: UIViewController {
         textHex.translatesAutoresizingMaskIntoConstraints = false
         return textHex
     }()
+    
+    private lazy var tableViewColors: UITableView = {
+        let tableColors = UITableView()
+        tableColors.translatesAutoresizingMaskIntoConstraints = false
+        
+        tableColors.delegate = self
+        tableColors.dataSource = self
+        tableColors.separatorColor = UIColor.clear
+        tableColors.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        
+        return tableColors
+    }()
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 10
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableViewColors.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as? UITableViewCell else {
+            return UITableViewCell()
+            
+        }
+        
+        let label: UILabel = UILabel()
+        label.text = "#98754"
+        label.textColor = .white
+        label.translatesAutoresizingMaskIntoConstraints = false
+        cell.contentView.addSubview(label)
+        label.font = UIFont.systemFont(ofSize: 17)
+        label.font = UIFont.boldSystemFont(ofSize: 17)
+        
+        
+        label.centerXAnchor.constraint(equalTo: cell.contentView.centerXAnchor).isActive = true
+        label.centerYAnchor.constraint(equalTo: cell.contentView.centerYAnchor).isActive = true
+        
+        
+        return cell
+    }
     
     private func makeRequest() {
         let url = URL(string: "https://www.thecolorapi.com/scheme")!
@@ -119,7 +164,6 @@ class ViewController: UIViewController {
                 print(responseString)
                 
             }
-            
         }
         task.resume()
     }
@@ -152,3 +196,4 @@ class CustomTextField: UITextField {
     }
     
 }
+
