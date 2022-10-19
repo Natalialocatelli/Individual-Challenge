@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AA40878C29001B51008561A1 /* HexCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA40878B29001B51008561A1 /* HexCell.swift */; };
 		AA5DC5EB28FB4E0B00E62E6D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA5DC5EA28FB4E0B00E62E6D /* AppDelegate.swift */; };
 		AA5DC5ED28FB4E0B00E62E6D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA5DC5EC28FB4E0B00E62E6D /* SceneDelegate.swift */; };
 		AA5DC5EF28FB4E0B00E62E6D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA5DC5EE28FB4E0B00E62E6D /* ViewController.swift */; };
@@ -36,6 +37,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		AA40878B29001B51008561A1 /* HexCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HexCell.swift; sourceTree = "<group>"; };
 		AA5DC5E728FB4E0B00E62E6D /* color generator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "color generator.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA5DC5EA28FB4E0B00E62E6D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		AA5DC5EC28FB4E0B00E62E6D /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -102,6 +104,7 @@
 				AA5DC5EA28FB4E0B00E62E6D /* AppDelegate.swift */,
 				AA5DC5EC28FB4E0B00E62E6D /* SceneDelegate.swift */,
 				AA5DC5EE28FB4E0B00E62E6D /* ViewController.swift */,
+				AA40878B29001B51008561A1 /* HexCell.swift */,
 				AA5DC5F028FB4E0B00E62E6D /* Main.storyboard */,
 				AA5DC5F328FB4E0C00E62E6D /* Assets.xcassets */,
 				AA5DC5F528FB4E0C00E62E6D /* LaunchScreen.storyboard */,
@@ -259,6 +262,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AA5DC5EF28FB4E0B00E62E6D /* ViewController.swift in Sources */,
+				AA40878C29001B51008561A1 /* HexCell.swift in Sources */,
 				AA5DC5EB28FB4E0B00E62E6D /* AppDelegate.swift in Sources */,
 				AA5DC5ED28FB4E0B00E62E6D /* SceneDelegate.swift in Sources */,
 			);

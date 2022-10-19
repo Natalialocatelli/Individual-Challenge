@@ -17,8 +17,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 //        MARK: - Navigation Controller
         
         title = "Crie sua paleta"
-        view.backgroundColor = .white
-        navigationController?.navigationBar.backgroundColor = .white
+        view.backgroundColor = .systemBackground
+        navigationController?.navigationBar.backgroundColor = .systemBackground
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationController?.navigationItem.largeTitleDisplayMode = .always
         self.navigationController!.navigationBar.isTranslucent = false
@@ -117,7 +117,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         tableColors.delegate = self
         tableColors.dataSource = self
         tableColors.separatorColor = UIColor.clear
-        tableColors.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        tableColors.register(HexCell.self, forCellReuseIdentifier: "cell")
         
         return tableColors
     }()
@@ -127,22 +127,13 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableViewColors.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as? UITableViewCell else {
+        guard let cell = tableViewColors.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as? HexCell else {
             return UITableViewCell()
             
         }
+    
         
-        let label: UILabel = UILabel()
-        label.text = "#98754"
-        label.textColor = .white
-        label.translatesAutoresizingMaskIntoConstraints = false
-        cell.contentView.addSubview(label)
-        label.font = UIFont.systemFont(ofSize: 17)
-        label.font = UIFont.boldSystemFont(ofSize: 17)
-        
-        
-        label.centerXAnchor.constraint(equalTo: cell.contentView.centerXAnchor).isActive = true
-        label.centerYAnchor.constraint(equalTo: cell.contentView.centerYAnchor).isActive = true
+        cell.textLabel?.text = "#98754"
         
         
         return cell
@@ -173,7 +164,7 @@ class CustomTextField: UITextField {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        backgroundColor = .white
+        backgroundColor = .systemBackground
         layer.cornerRadius = 15
         layer.borderWidth = 1.0
         layer.borderColor = UIColor(white: 0.5, alpha: 0.3).cgColor
