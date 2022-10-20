@@ -10,15 +10,18 @@ import UIKit
 
 class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
+    var colorAPIModel: ColorAPIModel?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-//        makeRequest()
+        
         
 //        MARK: - Navigation Controller
         
         title = "Crie sua paleta"
         view.backgroundColor = .systemBackground
         navigationController?.navigationBar.backgroundColor = .systemBackground
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(loadPalette))
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationController?.navigationItem.largeTitleDisplayMode = .always
         self.navigationController!.navigationBar.isTranslucent = false
@@ -80,6 +83,18 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
     }
     
+    @objc func loadPalette() {
+        guard let number = Int(textFieldColors.text!) else { return }
+        let hex = textFieldHex.text!.replacingOccurrences(of: " ", with: "")
+        makeRequest(number: number, hex: hex) { model in
+            self.colorAPIModel = model
+            DispatchQueue.main.async {
+                self.tableViewColors.reloadData()
+            }
+        }
+        
+    }
+    
     private let titleLabelResult: UILabel = {
         let labelResult = UILabel()
         labelResult.translatesAutoresizingMaskIntoConstraints = false
@@ -100,6 +115,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     private let textFieldColors: UITextField = {
         let text = CustomTextField()
+        text.keyboardType = .numberPad
         text.translatesAutoresizingMaskIntoConstraints = false
         return text
     }()
@@ -123,7 +139,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }()
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        print(colorAPIModel?.colors.count)
+        return colorAPIModel?.colors.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -131,16 +148,23 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             return UITableViewCell()
             
         }
-    
         
-        cell.textLabel?.text = "#98754"
         
+        guard let model = colorAPIModel?.colors[indexPath.row] else { return cell }
+        
+        cell.textLabel?.text = model.hex.value
+        
+        let r = model.rgb.fraction.r
+        let g = model.rgb.fraction.g
+        let b = model.rgb.fraction.b
+        
+        cell.background.backgroundColor = UIColor(red: r, green: g, blue: b, alpha: 1)
         
         return cell
     }
     
-    private func makeRequest() {
-        let url = URL(string: "https://www.thecolorapi.com/scheme")!
+    private func makeRequest(number: Int, hex: String, completion: @escaping (ColorAPIModel) -> ()) {
+        let url = URL(string: "https://www.thecolorapi.com/scheme?hex=\(hex)&count=\(number)")!
         
         let task = URLSession.shared.dataTask(with: url) {
             (data, response, error) in
@@ -148,12 +172,17 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             print("response: \(String(describing: response))")
             print("error: \(String(describing: error))")
             
-            guard let responseData = data else {return}
-            
-            if let responseString = String(data: responseData, encoding: .utf8)
-            {
-                print(responseString)
-                
+            guard let responseData = data else {
+                // chamar a completion e avisar pro usuario que teve um erro na requisicao via alert
+                return
+            }
+            do {
+                let colorAPIModel = try JSONDecoder().decode(ColorAPIModel.self, from: responseData)
+                print("objects posts: \(colorAPIModel)")
+                completion(colorAPIModel)
+            } catch let error {
+                print("oioioi: \(error)")
+                // chamar a completion e avisar pro usuario que teve um erro na requisicao via alert
             }
         }
         task.resume()
@@ -185,6 +214,8 @@ class CustomTextField: UITextField {
     override func editingRect(forBounds bounds: CGRect) -> CGRect {
         return CGRectInset(bounds, 20, 0)
     }
+    
+   
     
 }
 
