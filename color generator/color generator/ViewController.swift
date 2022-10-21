@@ -39,10 +39,11 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
         
         
-//        MARK: - Count Text Field
+//        MARK: - Count Text Field Number of Colors
         
         view.addSubview(textFieldColors)
         textFieldColors.textColor = UIColor(named: "TextColor")
+        textFieldColors.placeholder = "Ex: Insira um número de 1 a 5"
         textFieldColors.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 8).isActive = true
         textFieldColors.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 33).isActive = true
         textFieldColors.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -33).isActive = true
@@ -57,9 +58,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         titleLabelHex.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
         titleLabelHex.bottomAnchor.constraint(equalTo: textFieldColors.bottomAnchor, constant: 37).isActive = true
         
-//        MARK: - Hex Text Field
+//        MARK: - Hex Text Field Hex
         view.addSubview(textFieldHex)
         textFieldHex.textColor = UIColor(named: "TextColor")
+        textFieldHex.placeholder = "Ex: D2D2D2"
         textFieldHex.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 126).isActive = true
         textFieldHex.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 33).isActive = true
         textFieldHex.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -33).isActive = true
