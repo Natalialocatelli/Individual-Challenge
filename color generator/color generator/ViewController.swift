@@ -21,13 +21,14 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         title = "Crie sua paleta"
         view.backgroundColor = .systemBackground
         navigationController?.navigationBar.backgroundColor = .systemBackground
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(loadPalette))
+        buttonGeneratePalette.addTarget(self, action: #selector(loadPalette), for: .touchDown)
+//        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(loadPalette))
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationController?.navigationItem.largeTitleDisplayMode = .always
         self.navigationController!.navigationBar.isTranslucent = false
         self.navigationController!.navigationBar.titleTextAttributes = [.foregroundColor: UIColor(named: "BackgroundColor")]
         self.navigationController!.navigationBar.largeTitleTextAttributes = [.foregroundColor: UIColor(named: "TextColor")]
-        
+    
         
 //        MARK: - Count Title Label
         
@@ -64,15 +65,31 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         textFieldHex.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -33).isActive = true
         textFieldHex.heightAnchor.constraint(equalToConstant: 67).isActive = true
         
+        
+//        MARK: - UIButton
+                
+        view.addSubview(buttonGeneratePalette)
+        buttonGeneratePalette.backgroundColor = UIColor(named: "ButtonColor")
+        buttonGeneratePalette.heightAnchor.constraint(equalToConstant: 67).isActive = true
+        buttonGeneratePalette.layer.cornerRadius = 15
+        buttonGeneratePalette.setTitle("Generate", for: .normal)
+        
+        buttonGeneratePalette.titleLabel?.font = UIFont.systemFont(ofSize: 20)
+        buttonGeneratePalette.setTitleColor(UIColor(named: "ButtonTextColor"), for: .normal)
+        buttonGeneratePalette.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 33).isActive = true
+        buttonGeneratePalette.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -33).isActive = true
+        buttonGeneratePalette.topAnchor.constraint(equalTo: textFieldHex.bottomAnchor, constant: 28).isActive = true
+
+        
 //        MARK: - Result Title
         view.addSubview(titleLabelResult)
         titleLabelResult.text = "Resultado"
         titleLabelResult.textColor = UIColor(named: "TextColor")
         titleLabelResult.font = UIFont.systemFont(ofSize: 24)
         titleLabelResult.font = UIFont.boldSystemFont(ofSize: 24)
-        titleLabelResult.topAnchor.constraint(equalTo: textFieldHex.bottomAnchor, constant: 26).isActive = true
+        titleLabelResult.topAnchor.constraint(equalTo: buttonGeneratePalette.bottomAnchor, constant: 26).isActive = true
         titleLabelResult.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 35).isActive = true
-
+        
 //        MARK: - TableView
         view.addSubview(tableViewColors)
         tableViewColors.topAnchor.constraint(equalTo: titleLabelResult.bottomAnchor, constant: 10).isActive = true
@@ -94,6 +111,12 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         }
         
     }
+    
+    private let buttonGeneratePalette: UIButton = {
+        let buttonGenerate = UIButton()
+        buttonGenerate.translatesAutoresizingMaskIntoConstraints = false
+        return buttonGenerate
+    }()
     
     private let titleLabelResult: UILabel = {
         let labelResult = UILabel()
