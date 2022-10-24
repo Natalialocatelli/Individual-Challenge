@@ -13,6 +13,55 @@ class GenerateViewController: UIViewController, UITableViewDelegate, UITableView
     var colorAPIModel: ColorAPIModel?
     var stringModel: String?
     
+    private let buttonGeneratePalette: UIButton = {
+        let buttonGenerate = UIButton()
+        buttonGenerate.translatesAutoresizingMaskIntoConstraints = false
+        return buttonGenerate
+    }()
+    
+    private let titleLabelResult: UILabel = {
+        let labelResult = UILabel()
+        labelResult.translatesAutoresizingMaskIntoConstraints = false
+        return labelResult
+    }()
+    
+    private let titleLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    private let titleLabelHex: UILabel = {
+        let labelHex = UILabel()
+        labelHex.translatesAutoresizingMaskIntoConstraints = false
+        return labelHex
+    }()
+    
+    private let textFieldColors: UITextField = {
+        let text = CustomTextField()
+        text.keyboardType = .numberPad
+        text.translatesAutoresizingMaskIntoConstraints = false
+        return text
+    }()
+    
+    private let textFieldHex: UITextField = {
+        let textHex = CustomTextField()
+        textHex.translatesAutoresizingMaskIntoConstraints = false
+        return textHex
+    }()
+    
+    private lazy var tableViewColors: UITableView = {
+        let tableColors = UITableView()
+        tableColors.translatesAutoresizingMaskIntoConstraints = false
+        
+        tableColors.delegate = self
+        tableColors.dataSource = self
+        tableColors.separatorColor = UIColor.clear
+        tableColors.register(HexCell.self, forCellReuseIdentifier: "cell")
+        
+        return tableColors
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -121,54 +170,7 @@ class GenerateViewController: UIViewController, UITableViewDelegate, UITableView
         FileManagerHelper.shared.save(text: stringModel ?? "", withFileName: "a")
     }
     
-    private let buttonGeneratePalette: UIButton = {
-        let buttonGenerate = UIButton()
-        buttonGenerate.translatesAutoresizingMaskIntoConstraints = false
-        return buttonGenerate
-    }()
     
-    private let titleLabelResult: UILabel = {
-        let labelResult = UILabel()
-        labelResult.translatesAutoresizingMaskIntoConstraints = false
-        return labelResult
-    }()
-    
-    private let titleLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-    
-    private let titleLabelHex: UILabel = {
-        let labelHex = UILabel()
-        labelHex.translatesAutoresizingMaskIntoConstraints = false
-        return labelHex
-    }()
-    
-    private let textFieldColors: UITextField = {
-        let text = CustomTextField()
-        text.keyboardType = .numberPad
-        text.translatesAutoresizingMaskIntoConstraints = false
-        return text
-    }()
-    
-    private let textFieldHex: UITextField = {
-        let textHex = CustomTextField()
-        textHex.translatesAutoresizingMaskIntoConstraints = false
-        return textHex
-    }()
-    
-    private lazy var tableViewColors: UITableView = {
-        let tableColors = UITableView()
-        tableColors.translatesAutoresizingMaskIntoConstraints = false
-        
-        tableColors.delegate = self
-        tableColors.dataSource = self
-        tableColors.separatorColor = UIColor.clear
-        tableColors.register(HexCell.self, forCellReuseIdentifier: "cell")
-        
-        return tableColors
-    }()
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         print(colorAPIModel?.colors.count)
@@ -217,31 +219,5 @@ class GenerateViewController: UIViewController, UITableViewDelegate, UITableView
     }
 }
 
-class CustomTextField: UITextField {
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        backgroundColor = .systemBackground
-        layer.cornerRadius = 15
-        layer.borderWidth = 1.0
-        layer.borderColor = UIColor(white: 0.5, alpha: 0.3).cgColor
-        layer.shadowOpacity = 0.05
-        layer.shadowRadius = 1.0
-        layer.shadowOffset = CGSizeMake(0.0, 2.0)
-        layer.shadowColor = UIColor.black.cgColor
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    override func textRect(forBounds bounds: CGRect) -> CGRect {
-        return CGRectInset(bounds, 20, 0)
-    }
-    
-    override func editingRect(forBounds bounds: CGRect) -> CGRect {
-        return CGRectInset(bounds, 20, 0)
-    }
-    
-}
+
 

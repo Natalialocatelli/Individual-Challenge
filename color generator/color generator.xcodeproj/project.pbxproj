@@ -21,6 +21,7 @@
 		AA7924C02905D7A200B87C73 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA7924BF2905D7A200B87C73 /* HomeViewController.swift */; };
 		AA7924C52906077E00B87C73 /* FavoritesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA7924C42906077E00B87C73 /* FavoritesViewController.swift */; };
 		AA7924C7290627D000B87C73 /* FileManagerHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA7924C6290627D000B87C73 /* FileManagerHelper.swift */; };
+		AA7924CC29063B8300B87C73 /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA7924CB29063B8300B87C73 /* CustomTextField.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -59,6 +60,7 @@
 		AA7924BF2905D7A200B87C73 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		AA7924C42906077E00B87C73 /* FavoritesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesViewController.swift; sourceTree = "<group>"; };
 		AA7924C6290627D000B87C73 /* FileManagerHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileManagerHelper.swift; sourceTree = "<group>"; };
+		AA7924CB29063B8300B87C73 /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -150,8 +152,9 @@
 		AA7924C92906387500B87C73 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				AA5DC5F028FB4E0B00E62E6D /* Main.storyboard */,
 				AA40878B29001B51008561A1 /* HexCell.swift */,
+				AA7924CB29063B8300B87C73 /* CustomTextField.swift */,
+				AA5DC5F028FB4E0B00E62E6D /* Main.storyboard */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -305,6 +308,7 @@
 				AA7924C7290627D000B87C73 /* FileManagerHelper.swift in Sources */,
 				AA0195122900B8A400FCF33F /* ColorAPIModel.swift in Sources */,
 				AA7924C02905D7A200B87C73 /* HomeViewController.swift in Sources */,
+				AA7924CC29063B8300B87C73 /* CustomTextField.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
