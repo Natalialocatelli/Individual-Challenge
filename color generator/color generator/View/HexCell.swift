@@ -50,5 +50,12 @@ class HexCell: UITableViewCell {
 
     }
 
+    func setBackgroundColor(rgbModel: RGB) {
+        let r = rgbModel.fraction.r
+        let g = rgbModel.fraction.g
+        let b = rgbModel.fraction.b
+        background.backgroundColor = UIColor(red: r, green: g, blue: b, alpha: 1)
+
+    }
 }
 

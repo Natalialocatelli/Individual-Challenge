@@ -8,9 +8,10 @@
 import UIKit
 
 
-class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class GenerateViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     var colorAPIModel: ColorAPIModel?
+    var stringModel: String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,7 +23,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         view.backgroundColor = .systemBackground
         navigationController?.navigationBar.backgroundColor = .systemBackground
         buttonGeneratePalette.addTarget(self, action: #selector(loadPalette), for: .touchDown)
-//        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(loadPalette))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(save))
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationController?.navigationItem.largeTitleDisplayMode = .always
         self.navigationController!.navigationBar.isTranslucent = false
@@ -87,7 +88,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         view.addSubview(titleLabelResult)
         titleLabelResult.text = "Resultado"
         titleLabelResult.textColor = UIColor(named: "TextColor")
-        titleLabelResult.font = UIFont.systemFont(ofSize: 24)
         titleLabelResult.font = UIFont.boldSystemFont(ofSize: 24)
         titleLabelResult.topAnchor.constraint(equalTo: buttonGeneratePalette.bottomAnchor, constant: 26).isActive = true
         titleLabelResult.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 35).isActive = true
@@ -105,13 +105,20 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     @objc func loadPalette() {
         guard let number = Int(textFieldColors.text!) else { return }
         let hex = textFieldHex.text!.replacingOccurrences(of: " ", with: "")
-        makeRequest(number: number, hex: hex) { model in
+        makeRequest(number: number, hex: hex) { model, stringModel in
+            
             self.colorAPIModel = model
+            self.stringModel = stringModel
+            
             DispatchQueue.main.async {
                 self.tableViewColors.reloadData()
             }
         }
         
+    }
+    
+    @objc func save() {
+        FileManagerHelper.shared.save(text: stringModel ?? "", withFileName: "a")
     }
     
     private let buttonGeneratePalette: UIButton = {
@@ -179,23 +186,18 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         cell.textLabel?.text = model.hex.value
         
-        let r = model.rgb.fraction.r
-        let g = model.rgb.fraction.g
-        let b = model.rgb.fraction.b
-        
-        cell.background.backgroundColor = UIColor(red: r, green: g, blue: b, alpha: 1)
-        
+        cell.setBackgroundColor(rgbModel: model.rgb)
         return cell
     }
     
-    private func makeRequest(number: Int, hex: String, completion: @escaping (ColorAPIModel) -> ()) {
+    private func makeRequest(number: Int, hex: String, completion: @escaping (_ model: ColorAPIModel, _ stringModel: String) -> ()) {
         let url = URL(string: "https://www.thecolorapi.com/scheme?hex=\(hex)&count=\(number)")!
         
         let task = URLSession.shared.dataTask(with: url) {
             (data, response, error) in
             
-            print("response: \(String(describing: response))")
-            print("error: \(String(describing: error))")
+//            print("response: \(String(describing: response))")
+//            print("error: \(String(describing: error))")
             
             guard let responseData = data else {
                 // chamar a completion e avisar pro usuario que teve um erro na requisicao via alert
@@ -203,10 +205,11 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             }
             do {
                 let colorAPIModel = try JSONDecoder().decode(ColorAPIModel.self, from: responseData)
-                print("objects posts: \(colorAPIModel)")
-                completion(colorAPIModel)
+//                print("objects posts: \(colorAPIModel)")
+                let stringModel = String(decoding: data!, as: UTF8.self)
+                completion(colorAPIModel, stringModel)
             } catch let error {
-                print("oioioi: \(error)")
+//                print("oioioi: \(error)")
                 // chamar a completion e avisar pro usuario que teve um erro na requisicao via alert
             }
         }
@@ -239,8 +242,6 @@ class CustomTextField: UITextField {
     override func editingRect(forBounds bounds: CGRect) -> CGRect {
         return CGRectInset(bounds, 20, 0)
     }
-    
-   
     
 }
 
